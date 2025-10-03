@@ -1,0 +1,367 @@
+import React, { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+
+const Dashboard = () => {
+  const [activeView, setActiveView] = useState('overview');
+
+  // Data from analysis
+  const teamData = [
+    { name: 'Resident Services', value: 11 },
+    { name: 'Finance', value: 9 },
+    { name: 'Operations & Data', value: 7 },
+    { name: 'Real Estate Dev', value: 6 },
+    { name: 'Philanthropy', value: 5 },
+    { name: 'Asset Management', value: 3 },
+    { name: 'Executive', value: 2 }
+  ];
+
+  const aiJourneyData = [
+    { name: 'Dabble occasionally', value: 19, color: '#3b82f6' },
+    { name: 'Curious but not started', value: 8, color: '#93c5fd' },
+    { name: 'Use weekly', value: 8, color: '#22c55e' },
+    { name: 'Skeptical', value: 5, color: '#ef4444' },
+    { name: 'Rely on daily', value: 3, color: '#10b981' }
+  ];
+
+  const comfortData = [
+    { level: '0', count: 3 },
+    { level: '1', count: 9 },
+    { level: '2', count: 10 },
+    { level: '3', count: 4 },
+    { level: '4', count: 8 },
+    { level: '5', count: 9 }
+  ];
+
+  const hoursData = [
+    { range: '13+', count: 11 },
+    { range: '9-12', count: 13 },
+    { range: '5-8', count: 8 },
+    { range: '2-4', count: 7 },
+    { range: '<2', count: 4 }
+  ];
+
+  const taskData = [
+    { task: 'Meetings & Calendar', count: 21 },
+    { task: 'Email Communications', count: 21 },
+    { task: 'Data Entry & Analytics', count: 17 },
+    { task: 'Document Prep', count: 15 },
+    { task: 'Reporting', count: 13 },
+    { task: 'Research', count: 11 }
+  ];
+
+  const painPointsData = [
+    { pain: 'Switching systems', count: 18 },
+    { pain: 'Gathering inputs', count: 17 },
+    { pain: 'Waiting approvals', count: 12 },
+    { pain: 'Finding templates', count: 11 },
+    { pain: 'Data errors', count: 9 }
+  ];
+
+  const toolsData = [
+    { tool: 'ChatGPT', count: 23 },
+    { tool: 'None', count: 11 },
+    { tool: 'Co-Pilot', count: 10 },
+    { tool: 'Gemini', count: 7 },
+    { tool: 'Claude', count: 3 }
+  ];
+
+  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Adoption Survey Results</h1>
+          <p className="text-gray-600">43 responses | Survey Period: Sept-Oct 2025</p>
+          
+          {/* Key Metrics */}
+          <div className="grid grid-cols-4 gap-4 mt-6">
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="text-2xl font-bold text-blue-600">65%</div>
+              <div className="text-sm text-gray-600">Want to join pilot</div>
+            </div>
+            <div className="bg-green-50 rounded-lg p-4">
+              <div className="text-2xl font-bold text-green-600">2.74</div>
+              <div className="text-sm text-gray-600">Avg comfort level (0-5)</div>
+            </div>
+            <div className="bg-amber-50 rounded-lg p-4">
+              <div className="text-2xl font-bold text-amber-600">56%</div>
+              <div className="text-sm text-gray-600">Spend 9+ hrs/week</div>
+            </div>
+            <div className="bg-purple-50 rounded-lg p-4">
+              <div className="text-2xl font-bold text-purple-600">53%</div>
+              <div className="text-sm text-gray-600">Used ChatGPT</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex gap-2 mb-6">
+          <button 
+            onClick={() => setActiveView('overview')}
+            className={`px-4 py-2 rounded-lg font-medium ${activeView === 'overview' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+          >
+            Overview
+          </button>
+          <button 
+            onClick={() => setActiveView('adoption')}
+            className={`px-4 py-2 rounded-lg font-medium ${activeView === 'adoption' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+          >
+            AI Adoption
+          </button>
+          <button 
+            onClick={() => setActiveView('tasks')}
+            className={`px-4 py-2 rounded-lg font-medium ${activeView === 'tasks' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+          >
+            Tasks & Pain Points
+          </button>
+        </div>
+
+        {/* Overview View */}
+        {activeView === 'overview' && (
+          <div className="grid grid-cols-2 gap-6">
+            {/* Team Distribution */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Team Distribution</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={teamData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#3b82f6" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Hours per Week */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Weekly Hours on Tasks</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={hoursData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ range, count }) => `${range} (${count})`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="count"
+                  >
+                    {hoursData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="mt-4 text-center">
+                <p className="text-sm text-red-600 font-semibold">⚠️ 56% spend 9+ hours weekly on identified tasks</p>
+              </div>
+            </div>
+
+            {/* Sensitive Data */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Sensitive Data Involvement</h2>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                  <span className="font-medium">No sensitive data</span>
+                  <span className="text-2xl font-bold text-green-600">19</span>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                  <span className="font-medium">Yes, sensitive data</span>
+                  <span className="text-2xl font-bold text-red-600">17</span>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-amber-50 rounded-lg">
+                  <span className="font-medium">Not sure</span>
+                  <span className="text-2xl font-bold text-amber-600">7</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Early Adopter Interest */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Pilot Program Interest</h2>
+              <div className="flex items-center justify-center h-64">
+                <div className="text-center">
+                  <div className="text-6xl font-bold text-blue-600">28</div>
+                  <div className="text-2xl text-gray-600 mt-2">out of 43</div>
+                  <div className="text-lg text-gray-500 mt-4">want to join early adopters</div>
+                  <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <div className="text-3xl font-bold text-blue-600">65.1%</div>
+                    <div className="text-sm text-gray-600">participation rate</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* AI Adoption View */}
+        {activeView === 'adoption' && (
+          <div className="grid grid-cols-2 gap-6">
+            {/* AI Journey */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">AI Journey Status</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={aiJourneyData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={150} />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#3b82f6">
+                    {aiJourneyData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="mt-4 p-3 bg-amber-50 rounded">
+                <p className="text-sm text-amber-800">⚠️ Only 11 users (26%) are active AI users (weekly/daily)</p>
+              </div>
+            </div>
+
+            {/* Comfort Level */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">AI Comfort Level (0=Not at all, 5=Very)</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={comfortData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="level" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#10b981" />
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="mt-4 p-3 bg-blue-50 rounded">
+                <p className="text-sm text-blue-800">✓ Bimodal distribution: beginners (0-2) and advanced users (4-5) almost equal</p>
+              </div>
+            </div>
+
+            {/* Tools Experience */}
+            <div className="bg-white rounded-lg shadow-lg p-6 col-span-2">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">AI Tools Experience</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={toolsData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="tool" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#8b5cf6" />
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="mt-4 grid grid-cols-3 gap-4">
+                <div className="p-3 bg-purple-50 rounded">
+                  <p className="text-sm font-semibold text-purple-900">ChatGPT dominates</p>
+                  <p className="text-xs text-purple-700">53% have used it</p>
+                </div>
+                <div className="p-3 bg-red-50 rounded">
+                  <p className="text-sm font-semibold text-red-900">No tool experience</p>
+                  <p className="text-xs text-red-700">26% never used AI tools</p>
+                </div>
+                <div className="p-3 bg-blue-50 rounded">
+                  <p className="text-sm font-semibold text-blue-900">Low Claude awareness</p>
+                  <p className="text-xs text-blue-700">Only 7% have tried it</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tasks & Pain Points View */}
+        {activeView === 'tasks' && (
+          <div className="grid grid-cols-2 gap-6">
+            {/* Top Tasks */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Most Common Tasks</h2>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={taskData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="task" type="category" width={150} />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#06b6d4" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Pain Points */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Top Pain Points</h2>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={painPointsData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="pain" type="category" width={130} />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#ef4444" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Key Insights */}
+            <div className="bg-white rounded-lg shadow-lg p-6 col-span-2">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Key Insights & Recommendations</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <div className="p-4 bg-red-50 border-l-4 border-red-500 rounded">
+                    <h3 className="font-bold text-red-900 mb-1">Critical Finding</h3>
+                    <p className="text-sm text-red-800">System switching is the #1 pain point (42% of respondents). This suggests integration and workflow consolidation should be priority #1.</p>
+                  </div>
+                  <div className="p-4 bg-amber-50 border-l-4 border-amber-500 rounded">
+                    <h3 className="font-bold text-amber-900 mb-1">Time Investment</h3>
+                    <p className="text-sm text-amber-800">56% spend 9+ hours weekly on these tasks. Even a 20% efficiency gain would save 100+ hours weekly across the organization.</p>
+                  </div>
+                  <div className="p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+                    <h3 className="font-bold text-blue-900 mb-1">Strong Demand</h3>
+                    <p className="text-sm text-blue-800">65% want to join the pilot despite low AI experience. This indicates high organizational readiness for change.</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
+                    <h3 className="font-bold text-purple-900 mb-1">Training Gap</h3>
+                    <p className="text-sm text-purple-800">28% have no AI tool experience. The pilot should include comprehensive onboarding and support.</p>
+                  </div>
+                  <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded">
+                    <h3 className="font-bold text-green-900 mb-1">Data Governance</h3>
+                    <p className="text-sm text-green-800">40% work with sensitive data or aren't sure. Clear data handling guidelines are essential before rollout.</p>
+                  </div>
+                  <div className="p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded">
+                    <h3 className="font-bold text-indigo-900 mb-1">Quick Wins</h3>
+                    <p className="text-sm text-indigo-800">Meetings/calendar (49%) and email (49%) are the most common tasks. Target these for immediate impact.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Next Steps Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-6 mt-6 text-white">
+          <h2 className="text-2xl font-bold mb-4">📋 Recommended Next Steps</h2>
+          <div className="grid grid-cols-3 gap-6">
+            <div>
+              <div className="text-3xl font-bold mb-2">1</div>
+              <h3 className="font-bold mb-2">Launch Pilot with 28 Early Adopters</h3>
+              <p className="text-sm text-blue-100">Start small with engaged users to build internal champions and gather feedback</p>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-2">2</div>
+              <h3 className="font-bold mb-2">Create Data Governance Framework</h3>
+              <p className="text-sm text-blue-100">Establish clear guidelines for sensitive data handling before wider rollout</p>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-2">3</div>
+              <h3 className="font-bold mb-2">Build Training Program</h3>
+              <p className="text-sm text-blue-100">Design onboarding for beginners while supporting advanced users with best practices</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
